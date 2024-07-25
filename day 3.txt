@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f39c12;
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1200x600') center/cover no-repeat;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            line-height: 1.5;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+
+        .hero button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #f39c12;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .hero button:hover {
+            background: #e67e22;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Login and Registration Styles */
+        .auth-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .auth-container input[type="text"],
+        .auth-container input[type="password"],
+        .auth-container input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .auth-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .auth-container button:hover {
+            background-color: #34495e;
+        }
+
+        .auth-container .auth-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .auth-container .auth-link a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .auth-container .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Welcome to PharmaCare</h1>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#home" onclick="navigateToPage('home')">Home</a></li>
+                <li><a href="#about" onclick="navigateToPage('about')">About</a></li>
+                <li><a href="#contact" onclick="navigateToPage('contact')">Contact</a></li>
+                <li id="login-menu-item"><a href="#login" onclick="navigateToPage('login')">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div id="home" class="page">
+        <section class="hero">
+            <h1>PharmaCare</h1>
+            <p>Your one-stop solution for all your pharmaceutical needs.</p>
+            <button onclick="openModal()">Learn More</button>
+        </section>
+        <main>
+            <section>
+                <h2>Home</h2>
+                <p>Welcome to PharmaCare, your one-stop solution for all your pharmaceutical needs. Explore our wide range of services designed to make healthcare easier and more accessible.</p>
+                <button id="logout-button" class="hidden" onclick="handleLogout()">Logout</button>
+            </section>
+        </main>
+    </div>
+
+    <div id="about" class="page hidden">
+        <main>
+            <section>
+                <h2>About PharmaCare</h2>
+                <p>PharmaCare is a comprehensive online platform designed to make accessing pharmaceutical products and services easier than ever. Our app aims to simplify the process of ordering medications, accessing health information, and managing prescriptions, all from the comfort of your home.</p>
+                
+                <p><strong>Our Mission:</strong> To provide a seamless, user-friendly experience for individuals seeking reliable and efficient pharmaceutical care. We are committed to ensuring that our users have access to high-quality medications and health resources at their fingertips.</p>
+                
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li><strong>Medication Orders:</strong> Browse and order a wide range of prescription and over-the-counter medications.</li>
+                    <li><strong>Prescription Management:</strong> Easily manage and renew your prescriptions with just a few clicks.</li>
+                    <li><strong>Health Information:</strong> Access valuable health information and resources tailored to your needs.</li>
+                    <li><strong>24/7 Customer Support:</strong> Our dedicated support team is available around the clock to assist with any queries or issues.</li>
+                </ul>
+
+                <p><strong>Our Vision:</strong> To become the leading online pharmacy platform that transforms the way people access and manage their pharmaceutical needs, while maintaining the highest standards of service and reliability.</p>
+
+                <p>Thank you for choosing PharmaCare. We are excited to support your health and wellness journey.</p>
+            </section>
+        </main>
+    </div>
+
+    <div id="contact" class="page hidden">
+        <main>
+            <section>
+                <h2>Contact Us</h2>
+                <p>If you have any questions or need assistance, please don't hesitate to contact us. Our team is here to help you with any inquiries, support, or feedback you may have.</p>
+                
+                <p><strong>Email Us:</strong></p>
+                <p>For any questions or support, please reach out to our team:</p>
+                <ul>
+                    <li><strong>General Support:</strong> <a href="mailto:support@pharmacare.com">support@pharmacare.com</a></li>
+                    <li><strong>Technical Support:</strong> <a href="mailto:techsupport@pharmacare.com">techsupport@pharmacare.com</a></li>
+                </ul>
+
+                <p><strong>Our Team:</strong></p>
+                <ul>
+                    <li><strong>CEO:</strong> <a href="mailto:ceo@pharmacare.com">ceo@pharmacare.com</a></li>
+                    <li><strong>Manager:</strong> <a href="mailto:manager@pharmacare.com">manager@pharmacare.com</a></li>
+                    <li><strong>Director:</strong> <a href="mailto:director@pharmacare.com">director@pharmacare.com</a></li>
+                </ul>
+
+                <p><strong>Call Us:</strong></p>
+                <ul>
+                    <li><strong>Customer Service:</strong> <a href="tel:18001234567">1-800-123-4567</a></li>
+                    <li><strong>Technical Support:</strong> <a href="tel:18007654321">1-800-765-4321</a></li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <div id="login" class="page hidden">
+        <div class="auth-container">
+            <div id="login-form">
+                <h2>Login</h2>
+                <form onsubmit="return handleLogin()">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">Login</button>
+                    <a href="#register" onclick="showPage('register')" class="auth-link">Create an account</a>
+                    <a href="forgot-password.html" class="auth-link">Forgot your password?</a>
+                </form>
+            </div>
+            <div id="register-form" class="hidden">
+                <h2>Register</h2>
+                <form onsubmit="return handleRegister()">
+                    <label for="reg-username">Username:</label>
+                    <input type="text" id="reg-username" name="username" required>
+                    <label for="reg-email">Email:</label>
+                    <input type="email" id="reg-email" name="email" required>
+                    <label for="reg-password">Password:</label>
+                    <input type="password" id="reg-password" name="password" required>
+                    <button type="submit">Register</button>
+                    <a href="#login" onclick="showPage('login')" class="auth-link">Already have an account? Login</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Learn More -->
+    <div id="learn-more-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>About PharmaCare</h2>
+            <p>PharmaCare is a comprehensive online platform designed to make accessing pharmaceutical products and services easier than ever. Our app aims to simplify the process of ordering medications, accessing health information, and managing prescriptions, all from the comfort of your home.</p>
+            <p><strong>Our Mission:</strong> To provide a seamless, user-friendly experience for individuals seeking reliable and efficient pharmaceutical care. We are committed to ensuring that our users have access to high-quality medications and health resources at their fingertips.</p>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li><strong>Medication Orders:</strong> Browse and order a wide range of prescription and over-the-counter medications.</li>
+                <li><strong>Prescription Management:</strong> Easily manage and renew your prescriptions with just a few clicks.</li>
+                <li><strong>Health Information:</strong> Access valuable health information and resources tailored to your needs.</li>
+                <li><strong>24/7 Customer Support:</strong> Our dedicated support team is available around the clock to assist with any queries or issues.</li>
+            </ul>
+            <p><strong>Our Vision:</strong> To become the leading online pharmacy platform that transforms the way people access and manage their pharmaceutical needs, while maintaining the highest standards of service and reliability.</p>
+            <p>Thank you for choosing PharmaCare. We are excited to support your health and wellness journey.</p>
+        </div>
+    </div>
+
+    <script>
+        let isLoggedIn = false; // Simulated logged-in status
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(function(page) {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function handleLogin() {
+            isLoggedIn = true; // Simulate successful login
+            alert('Login successful');
+            navigateToPage('home'); // Redirect to the home page after login
+            document.getElementById('login-menu-item').classList.add('hidden'); // Hide login menu item
+            document.getElementById('logout-button').classList.remove('hidden'); // Show logout button
+            return false; // Prevent actual form submission
+        }
+
+        function handleRegister() {
+            isLoggedIn = true; // Simulate successful registration
+            alert('Registration successful');
+            navigateToPage('home'); // Redirect to the home page after registration
+            document.getElementById('login-menu-item').classList.add('hidden'); // Hide login menu item
+            document.getElementById('logout-button').classList.remove('hidden'); // Show logout button
+            return false; // Prevent actual form submission
+        }
+
+        function handleLogout() {
+            isLoggedIn = false; // Simulate successful logout
+            alert('Logout successful');
+            navigateToPage('home'); // Redirect to the home page after logout
+            document.getElementById('login-menu-item').classList.remove('hidden'); // Show login menu item
+            document.getElementById('logout-button').classList.add('hidden'); // Hide logout button
+        }
+
+        function navigateToPage(pageId) {
+            if (isLoggedIn || pageId === 'login' || pageId === 'register') {
+                showPage(pageId);
+            } else {
+                alert('Please log in to access this page.');
+                showPage('login');
+            }
+        }
+
+        function openModal() {
+            document.getElementById('learn-more-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('learn-more-modal').style.display = 'none';
+        }
+
+        // Show the home page by default
+        showPage('home');
+    </script>
+</body>
+</html>
